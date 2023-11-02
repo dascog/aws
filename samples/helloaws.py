@@ -18,8 +18,9 @@ for bucket in s3.buckets.all():
 # print the buffer to stdout
 print(buffer)
 
-# create a SNS topic
-topic = sns.create_topic(Name='MyTopic')
+
+# create a SNS topic (this is idempotent so will not recreate the topic if it exists)
+topic = sns.create_topic(Name='SampleTopic')
 
 # subscribe my email address to the SNS topic
 topic.subscribe(Protocol='email', Endpoint='darryl.greig@owerya.com')
@@ -31,9 +32,6 @@ response = topic.publish(
 
 # Read status code from the response (dict type)
 print(response['ResponseMetadata']['HTTPStatusCode'])
-
-# delete the topic
-topic.delete()
 
 quit()
 
